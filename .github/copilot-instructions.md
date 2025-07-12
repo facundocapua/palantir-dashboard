@@ -35,6 +35,7 @@ npm run db:down     # Stop database
 - CSS-in-JS with Tailwind custom properties in `globals.css`
 - ESLint extends `next/core-web-vitals` and `next/typescript`
 - Everything should be written in English, including comments and documentation
+- Don't create api routes unless necessary; use server components for data fetching
 
 ## Database Integration Points
 When building database features:

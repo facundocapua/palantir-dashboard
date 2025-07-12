@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { usePathname } from 'next/navigation'
 import { Dialog, DialogBackdrop, DialogPanel, TransitionChild } from '@headlessui/react'
 import {
   Bars3Icon,
@@ -12,17 +13,17 @@ import {
 } from '@heroicons/react/24/outline'
 
 const navigation = [
-  { name: 'Dashboard', href: '/', icon: HomeIcon, current: true },
-  { name: 'People', href: '/people', icon: UsersIcon, current: false },
-  { name: 'Teams', href: '/teams', icon: FolderIcon, current: false },
-  { name: 'Reports', href: '/reports', icon: ChartPieIcon, current: false },
+  { name: 'Dashboard', href: '/', icon: HomeIcon },
+  { name: 'People', href: '/people', icon: UsersIcon },
+  { name: 'Teams', href: '/teams', icon: FolderIcon },
+  { name: 'Reports', href: '/reports', icon: ChartPieIcon },
 ]
 
 const teams = [
-  { id: 1, name: 'Atlas', href: '/teams/atlas', initial: 'A', current: false },
-  { id: 2, name: 'Legion', href: '/teams/legion', initial: 'L', current: false },
-  { id: 3, name: 'Infraestructura', href: '/teams/infraestructura', initial: 'I', current: false },
-  { id: 4, name: 'Valhalla', href: '/teams/valhalla', initial: 'V', current: false },
+  { id: 1, name: 'Atlas', href: '/teams/atlas', initial: 'A' },
+  { id: 2, name: 'Legion', href: '/teams/legion', initial: 'L' },
+  { id: 3, name: 'Infraestructura', href: '/teams/infraestructura', initial: 'I' },
+  { id: 4, name: 'Valhalla', href: '/teams/valhalla', initial: 'V' },
 ]
 
 function classNames(...classes: string[]) {
@@ -35,6 +36,7 @@ interface AppLayoutProps {
 
 export default function AppLayout({ children }: AppLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const pathname = usePathname()
 
   return (
     <>
@@ -73,7 +75,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
                             <a
                               href={item.href}
                               className={classNames(
-                                item.current
+                                pathname === item.href
                                   ? 'bg-gray-800 text-white'
                                   : 'text-gray-400 hover:bg-gray-800 hover:text-white',
                                 'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold',
@@ -94,7 +96,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
                             <a
                               href={team.href}
                               className={classNames(
-                                team.current
+                                pathname === team.href
                                   ? 'bg-gray-800 text-white'
                                   : 'text-gray-400 hover:bg-gray-800 hover:text-white',
                                 'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold',
@@ -132,7 +134,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
                         <a
                           href={item.href}
                           className={classNames(
-                            item.current
+                            pathname === item.href
                               ? 'bg-gray-800 text-white'
                               : 'text-gray-400 hover:bg-gray-800 hover:text-white',
                             'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold',
@@ -153,7 +155,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
                         <a
                           href={team.href}
                           className={classNames(
-                            team.current
+                            pathname === team.href
                               ? 'bg-gray-800 text-white'
                               : 'text-gray-400 hover:bg-gray-800 hover:text-white',
                             'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold',
