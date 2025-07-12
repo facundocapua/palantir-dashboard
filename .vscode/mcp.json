@@ -1,0 +1,16 @@
+{
+	"servers": {
+		"palantir-db": {
+			"command": "npx",
+			"args": [
+				"@bytebase/dbhub",
+				"--transport",
+				"stdio",
+				"--dsn",
+				"mysql://root:qwe123@127.0.0.1/palantir"
+			],
+			"type": "stdio"
+		}
+	},
+	"inputs": []
+}

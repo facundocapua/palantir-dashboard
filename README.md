@@ -1,36 +1,101 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Palantir - Development Team Management Dashboard
+
+Palantir is a comprehensive dashboard designed to efficiently manage development teams. It provides tools to categorize team members, define projects, assemble teams, and obtain key metrics for informed decision-making.
+
+## Project Purpose
+
+The main objective of this project is to create a management dashboard that enables:
+
+- **Team Member Categorization**: Classify developers by role, seniority, skills, and contract type
+- **Project Definition**: Define and track development projects with clear objectives
+- **Team Assembly**: Create balanced teams based on project requirements and member capabilities  
+- **Key Metrics**: Generate insights and metrics for strategic decision-making
+- **Resource Optimization**: Maximize team efficiency through data-driven team composition
+
+## Features
+
+- **People Management**: Track 160+ developers across different teams (Atlas, Legion, Infraestructura, Valhalla)
+- **Team Organization**: Organize members into squads with specific roles and responsibilities
+- **Role Management**: Define and manage different technical roles (Frontend, Backend, DevOps, Mobile, etc.)
+- **Metrics Dashboard**: View team composition, role distribution, and resource allocation
+- **Project Assignment**: Assign team members to projects based on skills and availability
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+
+- Docker and Docker Compose
+- MySQL client (optional, for database access)
+
+### Development Setup
+
+1. **Start the database:**
+
+   ```bash
+   npm run db:up
+   ```
+
+2. **Install dependencies and start the development server:**
+
+   ```bash
+   npm install
+   npm run dev
+   ```
+
+3. **Access the application:**
+   Open [http://localhost:3000](http://localhost:3000) in your browser
+
+The application uses Turbopack for faster development builds and hot reloading.
+
+## Database Management
+
+The project uses a MySQL database with pre-populated data:
+
+- **160+ developer records** across multiple teams
+- **Team structures** (Atlas, Legion, Infraestructura, Valhalla)
+- **Role definitions** (Frontend, Backend, DevOps, Mobile, etc.)
+- **Seniority levels** and contract types
+
+### Database Commands
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# View database logs
+npm run db:logs
+
+# Connect to MySQL CLI
+npm run db:connect
+
+# Stop database
+npm run db:down
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Technology Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Frontend**: Next.js 15 with App Router and React 19
+- **Styling**: TailwindCSS 4 with custom design system
+- **Database**: MySQL 8.0 with Docker Compose
+- **Development**: TypeScript, ESLint, Turbopack
+- **Fonts**: Geist Sans and Geist Mono
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Architecture
 
-## Learn More
+The project follows a hybrid development approach:
 
-To learn more about Next.js, take a look at the following resources:
+- **Database**: Runs in Docker container for consistency
+- **Application**: Runs locally for fast development iteration
+- **Data**: Persists in Docker volumes for reliability
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Contributing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Ensure database is running (`npm run db:up`)
+5. Test your changes locally
+6. Submit a pull request
 
-## Deploy on Vercel
+## Documentation
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `DOCKER.md` - Detailed database setup and queries
+- `.github/copilot-instructions.md` - AI coding assistant guidelines
