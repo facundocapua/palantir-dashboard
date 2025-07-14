@@ -1,24 +1,130 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PeopleFilters from '@/components/people-filters';
-import { Team, Role, PersonWithTeamAndRole } from '@/types/database';
+import PersonForm from '@/components/person-form';
+import ConfirmDialog from '@/components/confirm-dialog';
+import { Team, Role, PersonWithTeamAndRole, Person } from '@/types/database';
+import toast from 'react-hot-toast';
 
 interface PeopleTableProps {
   people: PersonWithTeamAndRole[];
   teams: Team[];
   roles: Role[];
+  onDataChange: () => void;
 }
 
-export default function PeopleTable({ people, teams, roles }: PeopleTableProps) {
+export default function PeopleTable({ people, teams, roles, onDataChange }: PeopleTableProps) {
   const [filteredPeople, setFilteredPeople] = useState<PersonWithTeamAndRole[]>(people);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [editingPerson, setEditingPerson] = useState<PersonWithTeamAndRole | null>(null);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [personToDelete, setPersonToDelete] = useState<PersonWithTeamAndRole | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Update filtered people when people prop changes
+  useEffect(() => {
+    setFilteredPeople(people);
+  }, [people]);
 
   const handleFilteredPeople = (filtered: PersonWithTeamAndRole[]) => {
     setFilteredPeople(filtered);
   };
 
+  const handleAddPerson = () => {
+    setEditingPerson(null);
+    setIsFormOpen(true);
+  };
+
+  const handleEditPerson = (person: PersonWithTeamAndRole) => {
+    setEditingPerson(person);
+    setIsFormOpen(true);
+  };
+
+  const handleDeletePerson = (person: PersonWithTeamAndRole) => {
+    setPersonToDelete(person);
+    setIsDeleteDialogOpen(true);
+  };
+
+  const handleFormSubmit = async (personData: Omit<Person, 'id'>) => {
+    setIsSubmitting(true);
+    try {
+      const { createPerson, updatePerson } = await import('@/actions/people');
+      
+      const result = editingPerson 
+        ? await updatePerson(editingPerson.id, personData)
+        : await createPerson(personData);
+
+      if (!result.success) {
+        throw new Error(result.error || 'Failed to save person');
+      }
+
+      setIsFormOpen(false);
+      setEditingPerson(null);
+      onDataChange();
+
+      // Show success notification
+      toast.success(`${personData.name} has been ${editingPerson ? 'updated' : 'added'} to the team.`);
+    } catch (error) {
+      console.error('Error saving person:', error);
+      
+      // Show error notification
+      toast.error(error instanceof Error ? error.message : 'An unexpected error occurred.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!personToDelete) return;
+
+    setIsSubmitting(true);
+    try {
+      const { deletePerson } = await import('@/actions/people');
+      const result = await deletePerson(personToDelete.id);
+
+      if (!result.success) {
+        throw new Error(result.error || 'Failed to delete person');
+      }
+
+      setIsDeleteDialogOpen(false);
+      setPersonToDelete(null);
+      onDataChange();
+
+      // Show success notification
+      toast.success(`${personToDelete.name} has been removed from the team.`);
+    } catch (error) {
+      console.error('Error deleting person:', error);
+      
+      // Show error notification
+      toast.error(error instanceof Error ? error.message : 'An unexpected error occurred.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleCancelForm = () => {
+    setIsFormOpen(false);
+    setEditingPerson(null);
+  };
+
+  const handleCancelDelete = () => {
+    setIsDeleteDialogOpen(false);
+    setPersonToDelete(null);
+  };
+
   return (
     <div className="mt-8">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl font-semibold text-gray-900">People</h2>
+        <button
+          onClick={handleAddPerson}
+          className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        >
+          Add Person
+        </button>
+      </div>
+
       <PeopleFilters 
         people={people} 
         teams={teams} 
@@ -71,7 +177,7 @@ export default function PeopleTable({ people, teams, roles }: PeopleTableProps) 
                         Contract
                       </th>
                       <th scope="col" className="relative py-3.5 pr-4 pl-3 sm:pr-6">
-                        <span className="sr-only">Edit</span>
+                        <span className="sr-only">Actions</span>
                       </th>
                     </tr>
                   </thead>
@@ -82,7 +188,7 @@ export default function PeopleTable({ people, teams, roles }: PeopleTableProps) 
                           {person.name}
                         </td>
                         <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">
-                          {person.role || person.roleDetail?.name || 'N/A'}
+                          {person.roleDetail?.name || 'N/A'}
                         </td>
                         <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">
                           {person.team?.name || 'N/A'}
@@ -106,9 +212,20 @@ export default function PeopleTable({ people, teams, roles }: PeopleTableProps) 
                           {person.contract || 'N/A'}
                         </td>
                         <td className="relative py-4 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-6">
-                          <a href="#" className="text-indigo-600 hover:text-indigo-900">
-                            Edit<span className="sr-only">, {person.name}</span>
-                          </a>
+                          <div className="flex justify-end space-x-2">
+                            <button
+                              onClick={() => handleEditPerson(person)}
+                              className="text-indigo-600 hover:text-indigo-900"
+                            >
+                              Edit
+                            </button>
+                            <button
+                              onClick={() => handleDeletePerson(person)}
+                              className="text-red-600 hover:text-red-900"
+                            >
+                              Delete
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     ))}
@@ -132,6 +249,28 @@ export default function PeopleTable({ people, teams, roles }: PeopleTableProps) 
           </div>
         </div>
       </div>
+
+      {/* Person Form Modal */}
+      {isFormOpen && (
+        <PersonForm
+          person={editingPerson}
+          teams={teams}
+          roles={roles}
+          onSubmit={handleFormSubmit}
+          onCancel={handleCancelForm}
+          isSubmitting={isSubmitting}
+        />
+      )}
+
+      {/* Delete Confirmation Dialog */}
+      <ConfirmDialog
+        isOpen={isDeleteDialogOpen}
+        title="Delete Person"
+        message={`Are you sure you want to delete ${personToDelete?.name}? This action cannot be undone.`}
+        onConfirm={handleConfirmDelete}
+        onCancel={handleCancelDelete}
+        isProcessing={isSubmitting}
+      />
     </div>
   );
 }

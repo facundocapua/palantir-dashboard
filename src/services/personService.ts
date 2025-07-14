@@ -1,5 +1,5 @@
 import { executeQuery } from '@/lib/db';
-import { PersonWithTeamAndRole } from '@/types/database';
+import { PersonWithTeamAndRole, Person } from '@/types/database';
 
 interface PersonWithTeamAndRoleRaw {
   id: number;
@@ -11,6 +11,16 @@ interface PersonWithTeamAndRoleRaw {
   role_id: number | null;
   team_name: string | null;
   role_name: string | null;
+}
+
+interface InsertResult {
+  insertId: number;
+  affectedRows: number;
+}
+
+interface UpdateResult {
+  affectedRows: number;
+  changedRows: number;
 }
 
 export class PersonService {
@@ -155,5 +165,87 @@ export class PersonService {
         name: person.role_name,
       } : null
     }));
+  }
+
+  // Create a new person
+  static async createPerson(person: Omit<Person, 'id'>): Promise<PersonWithTeamAndRole> {
+    const query = `
+      INSERT INTO people (name, seniority, role, contract, team_id, role_id)
+      VALUES (?, ?, ?, ?, ?, ?)
+    `;
+    
+    const result = await executeQuery(query, [
+      person.name,
+      person.seniority,
+      person.role,
+      person.contract,
+      person.team_id,
+      person.role_id
+    ]) as InsertResult;
+    
+    const newPersonId = result.insertId;
+    const newPerson = await this.getPersonById(newPersonId);
+    
+    if (!newPerson) {
+      throw new Error('Failed to create person');
+    }
+    
+    return newPerson;
+  }
+
+  // Update a person
+  static async updatePerson(id: number, person: Partial<Omit<Person, 'id'>>): Promise<PersonWithTeamAndRole> {
+    const fields = [];
+    const values = [];
+    
+    if (person.name !== undefined) {
+      fields.push('name = ?');
+      values.push(person.name);
+    }
+    if (person.seniority !== undefined) {
+      fields.push('seniority = ?');
+      values.push(person.seniority);
+    }
+    if (person.role !== undefined) {
+      fields.push('role = ?');
+      values.push(person.role);
+    }
+    if (person.contract !== undefined) {
+      fields.push('contract = ?');
+      values.push(person.contract);
+    }
+    if (person.team_id !== undefined) {
+      fields.push('team_id = ?');
+      values.push(person.team_id);
+    }
+    if (person.role_id !== undefined) {
+      fields.push('role_id = ?');
+      values.push(person.role_id);
+    }
+    
+    if (fields.length === 0) {
+      throw new Error('No fields to update');
+    }
+    
+    const query = `UPDATE people SET ${fields.join(', ')} WHERE id = ?`;
+    values.push(id);
+    
+    await executeQuery(query, values);
+    
+    const updatedPerson = await this.getPersonById(id);
+    
+    if (!updatedPerson) {
+      throw new Error('Person not found after update');
+    }
+    
+    return updatedPerson;
+  }
+
+  // Delete a person
+  static async deletePerson(id: number): Promise<boolean> {
+    const query = 'DELETE FROM people WHERE id = ?';
+    const result = await executeQuery(query, [id]) as UpdateResult;
+    
+    return result.affectedRows > 0;
   }
 }
