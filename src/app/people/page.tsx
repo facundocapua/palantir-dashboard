@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import AppLayout from "@/components/app-layout";
 import PeopleTable from "@/components/people-table";
 import { PersonWithTeamAndRole, Team, Role } from '@/types/database';
 import toast from 'react-hot-toast';
@@ -16,7 +15,7 @@ export default function PeoplePage() {
     try {
       setIsLoading(true);
       const { getPeople, getTeams, getRoles } = await import('@/actions/people');
-      
+
       const [peopleResult, teamsResult, rolesResult] = await Promise.all([
         getPeople(),
         getTeams(),
@@ -28,13 +27,13 @@ export default function PeoplePage() {
       } else {
         toast.error(peopleResult.error || 'Unable to fetch people data');
       }
-      
+
       if (teamsResult.success) {
         setTeams(teamsResult.data || []);
       } else {
         toast.error(teamsResult.error || 'Unable to fetch teams data');
       }
-      
+
       if (rolesResult.success) {
         setRoles(rolesResult.data || []);
       } else {
@@ -54,36 +53,32 @@ export default function PeoplePage() {
 
   if (isLoading) {
     return (
-      <AppLayout>
-        <div className="px-4 sm:px-6 lg:px-8">
-          <div className="text-center py-12">
-            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
-            <p className="mt-2 text-sm text-gray-600">Loading...</p>
-          </div>
+      <div className="px-4 sm:px-6 lg:px-8">
+        <div className="text-center py-12">
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+          <p className="mt-2 text-sm text-gray-600">Loading...</p>
         </div>
-      </AppLayout>
+      </div>
     );
   }
 
   return (
-    <AppLayout>
-      <div className="px-4 sm:px-6 lg:px-8">
-        <div className="sm:flex sm:items-center">
-          <div className="sm:flex-auto">
-            <h1 className="text-base font-semibold text-gray-900">People</h1>
-            <p className="mt-2 text-sm text-gray-700">
-              A list of all the people in your organization including their name, role, and team.
-            </p>
-          </div>
+    <div className="px-4 sm:px-6 lg:px-8">
+      <div className="sm:flex sm:items-center">
+        <div className="sm:flex-auto">
+          <h1 className="text-base font-semibold text-gray-900">People</h1>
+          <p className="mt-2 text-sm text-gray-700">
+            A list of all the people in your organization including their name, role, and team.
+          </p>
         </div>
-
-        <PeopleTable 
-          people={people} 
-          teams={teams} 
-          roles={roles} 
-          onDataChange={fetchData}
-        />
       </div>
-    </AppLayout>
+
+      <PeopleTable
+        people={people}
+        teams={teams}
+        roles={roles}
+        onDataChange={fetchData}
+      />
+    </div>
   );
 }

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import AppLayout from "@/components/app-layout";
 import "./globals.css";
 import { Toaster } from 'react-hot-toast';
 
@@ -28,7 +29,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
       >
-        {children}
+        <AppLayout>
+          {children}
+        </AppLayout>
         <Toaster 
           position="top-right"
           toastOptions={{

@@ -1,4 +1,3 @@
-import AppLayout from "@/components/app-layout";
 import ProgressStatsCard from "@/components/progress-stats-card";
 import { ReportsService } from "@/services/reportsService";
 
@@ -21,7 +20,6 @@ export default async function ReportsPage() {
   const { roleStats, seniorityStats, teamStats, totalPeople } = await getReportsData();
 
   return (
-    <AppLayout>
       <div className="space-y-6">
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
@@ -161,6 +159,5 @@ export default async function ReportsPage() {
           />
         </div>
       </div>
-    </AppLayout>
   );
 }

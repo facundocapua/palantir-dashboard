@@ -10,12 +10,14 @@ import {
   HomeIcon,
   UsersIcon,
   XMarkIcon,
+  BriefcaseIcon,
 } from '@heroicons/react/24/outline'
 
 const navigation = [
   { name: 'Dashboard', href: '/', icon: HomeIcon },
   { name: 'People', href: '/people', icon: UsersIcon },
   { name: 'Teams', href: '/teams', icon: FolderIcon },
+  { name: 'Roles', href: '/roles', icon: BriefcaseIcon },
   { name: 'Reports', href: '/reports', icon: ChartPieIcon },
 ]
 

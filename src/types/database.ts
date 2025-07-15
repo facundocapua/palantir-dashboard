@@ -31,6 +31,14 @@ export interface TeamWithMembers extends Team {
   memberCount: number;
 }
 
+export interface TeamWithMemberCount extends Team {
+  memberCount: number;
+}
+
+export interface RoleWithUsageCount extends Role {
+  usageCount: number;
+}
+
 // API Response types
 export interface ApiResponse<T> {
   success: boolean;
