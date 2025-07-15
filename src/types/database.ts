@@ -14,7 +14,6 @@ export interface Person {
   id: number;
   name: string;
   seniority: 'JR I' | 'JR II' | 'SSR I' | 'SSR II' | 'SR I' | 'SR II' | null;
-  role: 'Frontend' | 'Backend' | 'DevOps' | 'Mobile' | 'Arquitect' | 'TS' | 'TL' | 'QA' | 'UX' | 'SD' | 'PM' | 'SC' | 'TM' | 'Gerente Técnico' | 'Lider DevOps' | 'Lider PMO' | 'Lider QA' | 'Lider Soporte' | 'Lider UX' | 'BC' | 'PC' | 'Lider Consultoría' | null;
   contract: 'Employee' | 'Contractor' | null;
   team_id: number | null;
   role_id: number | null;

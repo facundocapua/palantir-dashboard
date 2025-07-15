@@ -5,7 +5,6 @@ interface PersonWithTeamAndRoleRaw {
   id: number;
   name: string;
   seniority: string | null;
-  role: string | null;
   contract: string | null;
   team_id: number | null;
   role_id: number | null;
@@ -43,7 +42,6 @@ export class PersonService {
       id: person.id,
       name: person.name,
       seniority: person.seniority as 'JR I' | 'JR II' | 'SSR I' | 'SSR II' | 'SR I' | 'SR II' | null,
-      role: person.role as 'Frontend' | 'Backend' | 'DevOps' | 'Mobile' | 'Arquitect' | 'TS' | 'TL' | 'QA' | 'UX' | 'SD' | 'PM' | 'SC' | 'TM' | 'Gerente Técnico' | 'Lider DevOps' | 'Lider PMO' | 'Lider QA' | 'Lider Soporte' | 'Lider UX' | 'BC' | 'PC' | 'Lider Consultoría' | null,
       contract: person.contract as 'Employee' | 'Contractor' | null,
       team_id: person.team_id,
       role_id: person.role_id,
@@ -81,7 +79,6 @@ export class PersonService {
       id: person.id,
       name: person.name,
       seniority: person.seniority as 'JR I' | 'JR II' | 'SSR I' | 'SSR II' | 'SR I' | 'SR II' | null,
-      role: person.role as 'Frontend' | 'Backend' | 'DevOps' | 'Mobile' | 'Arquitect' | 'TS' | 'TL' | 'QA' | 'UX' | 'SD' | 'PM' | 'SC' | 'TM' | 'Gerente Técnico' | 'Lider DevOps' | 'Lider PMO' | 'Lider QA' | 'Lider Soporte' | 'Lider UX' | 'BC' | 'PC' | 'Lider Consultoría' | null,
       contract: person.contract as 'Employee' | 'Contractor' | null,
       team_id: person.team_id,
       role_id: person.role_id,
@@ -116,7 +113,6 @@ export class PersonService {
       id: person.id,
       name: person.name,
       seniority: person.seniority as 'JR I' | 'JR II' | 'SSR I' | 'SSR II' | 'SR I' | 'SR II' | null,
-      role: person.role as 'Frontend' | 'Backend' | 'DevOps' | 'Mobile' | 'Arquitect' | 'TS' | 'TL' | 'QA' | 'UX' | 'SD' | 'PM' | 'SC' | 'TM' | 'Gerente Técnico' | 'Lider DevOps' | 'Lider PMO' | 'Lider QA' | 'Lider Soporte' | 'Lider UX' | 'BC' | 'PC' | 'Lider Consultoría' | null,
       contract: person.contract as 'Employee' | 'Contractor' | null,
       team_id: person.team_id,
       role_id: person.role_id,
@@ -152,7 +148,6 @@ export class PersonService {
       id: person.id,
       name: person.name,
       seniority: person.seniority as 'JR I' | 'JR II' | 'SSR I' | 'SSR II' | 'SR I' | 'SR II' | null,
-      role: person.role as 'Frontend' | 'Backend' | 'DevOps' | 'Mobile' | 'Arquitect' | 'TS' | 'TL' | 'QA' | 'UX' | 'SD' | 'PM' | 'SC' | 'TM' | 'Gerente Técnico' | 'Lider DevOps' | 'Lider PMO' | 'Lider QA' | 'Lider Soporte' | 'Lider UX' | 'BC' | 'PC' | 'Lider Consultoría' | null,
       contract: person.contract as 'Employee' | 'Contractor' | null,
       team_id: person.team_id,
       role_id: person.role_id,
@@ -170,14 +165,13 @@ export class PersonService {
   // Create a new person
   static async createPerson(person: Omit<Person, 'id'>): Promise<PersonWithTeamAndRole> {
     const query = `
-      INSERT INTO people (name, seniority, role, contract, team_id, role_id)
-      VALUES (?, ?, ?, ?, ?, ?)
+      INSERT INTO people (name, seniority, contract, team_id, role_id)
+      VALUES (?, ?, ?, ?, ?)
     `;
     
     const result = await executeQuery(query, [
       person.name,
       person.seniority,
-      person.role,
       person.contract,
       person.team_id,
       person.role_id
@@ -205,10 +199,6 @@ export class PersonService {
     if (person.seniority !== undefined) {
       fields.push('seniority = ?');
       values.push(person.seniority);
-    }
-    if (person.role !== undefined) {
-      fields.push('role = ?');
-      values.push(person.role);
     }
     if (person.contract !== undefined) {
       fields.push('contract = ?');

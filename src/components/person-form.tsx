@@ -23,7 +23,6 @@ export default function PersonForm({
   const [formData, setFormData] = useState<Omit<Person, 'id'>>({
     name: person?.name || '',
     seniority: person?.seniority || null,
-    role: person?.role || null,
     contract: person?.contract || null,
     team_id: person?.team_id || null,
     role_id: person?.role_id || null,
@@ -36,31 +35,6 @@ export default function PersonForm({
     'SSR II',
     'SR I',
     'SR II',
-  ];
-
-  const roleOptions = [
-    'Frontend',
-    'Backend',
-    'DevOps',
-    'Mobile',
-    'Arquitect',
-    'TS',
-    'TL',
-    'QA',
-    'UX',
-    'SD',
-    'PM',
-    'SC',
-    'TM',
-    'Gerente Técnico',
-    'Lider DevOps',
-    'Lider PMO',
-    'Lider QA',
-    'Lider Soporte',
-    'Lider UX',
-    'BC',
-    'PC',
-    'Lider Consultoría',
   ];
 
   const contractOptions = ['Employee', 'Contractor'];
@@ -122,10 +96,10 @@ export default function PersonForm({
               </select>
             </div>
 
-            {/* Role Detail */}
+            {/* Role */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Role Detail
+                Role
               </label>
               <select
                 value={formData.role_id || ''}
@@ -136,25 +110,6 @@ export default function PersonForm({
                 {roles.map((role) => (
                   <option key={role.id} value={role.id}>
                     {role.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Role */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Role
-              </label>
-              <select
-                value={formData.role || ''}
-                onChange={(e) => handleChange('role', e.target.value || null)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-              >
-                <option value="">Select a role</option>
-                {roleOptions.map((role) => (
-                  <option key={role} value={role}>
-                    {role}
                   </option>
                 ))}
               </select>

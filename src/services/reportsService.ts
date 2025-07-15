@@ -32,7 +32,7 @@ export class ReportsService {
     
     if (filters.selectedRole) {
       people = people.filter(person => 
-        person.role === filters.selectedRole || person.roleDetail?.name === filters.selectedRole
+        person.roleDetail?.name === filters.selectedRole
       );
     }
     
@@ -45,7 +45,7 @@ export class ReportsService {
     // Calculate role distribution
     const roleCount = new Map<string, number>();
     people.forEach(person => {
-      const role = person.role || 'No Role';
+      const role = person.roleDetail?.name || 'No Role';
       roleCount.set(role, (roleCount.get(role) || 0) + 1);
     });
 

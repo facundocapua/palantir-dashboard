@@ -42,7 +42,7 @@ export default function PeopleFilters({ people, teams, roles, onFilteredPeople }
     // Filter by role
     if (selectedRole) {
       filtered = filtered.filter(person => 
-        person.role === selectedRole || person.roleDetail?.name === selectedRole
+        person.roleDetail?.name === selectedRole
       );
     }
 

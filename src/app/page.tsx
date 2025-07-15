@@ -118,7 +118,7 @@ export default async function Home() {
                       {person.name}
                     </p>
                     <p className="text-sm text-gray-500">
-                      {person.role || person.roleDetail?.name || 'N/A'} - {person.team?.name || 'N/A'}
+                      {person.roleDetail?.name || 'N/A'} - {person.team?.name || 'N/A'}
                     </p>
                   </div>
                   <div className="text-sm text-gray-500">
