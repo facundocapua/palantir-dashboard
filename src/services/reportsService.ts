@@ -13,9 +13,33 @@ export interface StatsData {
   totalPeople: number;
 }
 
+export interface ReportFilters {
+  selectedTeam?: string;
+  selectedRole?: string;
+  selectedSeniority?: string;
+}
+
 export class ReportsService {
-  static async getTeamStats(): Promise<StatsData> {
-    const people = await PersonService.getAllPeople();
+  static async getTeamStats(filters: ReportFilters = {}): Promise<StatsData> {
+    const allPeople = await PersonService.getAllPeople();
+    
+    // Apply filters
+    let people = allPeople;
+    
+    if (filters.selectedTeam) {
+      people = people.filter(person => person.team?.name === filters.selectedTeam);
+    }
+    
+    if (filters.selectedRole) {
+      people = people.filter(person => 
+        person.role === filters.selectedRole || person.roleDetail?.name === filters.selectedRole
+      );
+    }
+    
+    if (filters.selectedSeniority) {
+      people = people.filter(person => person.seniority === filters.selectedSeniority);
+    }
+    
     const totalPeople = people.length;
 
     // Calculate role distribution
