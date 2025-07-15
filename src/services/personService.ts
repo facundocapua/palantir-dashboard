@@ -8,6 +8,7 @@ interface PersonWithTeamAndRoleRaw {
   contract: string | null;
   team_id: number | null;
   role_id: number | null;
+  english_level: string | null;
   team_name: string | null;
   role_name: string | null;
 }
@@ -45,6 +46,7 @@ export class PersonService {
       contract: person.contract as 'Employee' | 'Contractor' | null,
       team_id: person.team_id,
       role_id: person.role_id,
+      english_level: person.english_level as 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2' | null,
       team: person.team_name ? {
         id: person.team_id || 0,
         name: person.team_name,
@@ -82,6 +84,7 @@ export class PersonService {
       contract: person.contract as 'Employee' | 'Contractor' | null,
       team_id: person.team_id,
       role_id: person.role_id,
+      english_level: person.english_level as 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2' | null,
       team: person.team_name ? {
         id: person.team_id || 0,
         name: person.team_name,
@@ -116,6 +119,7 @@ export class PersonService {
       contract: person.contract as 'Employee' | 'Contractor' | null,
       team_id: person.team_id,
       role_id: person.role_id,
+      english_level: person.english_level as 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2' | null,
       team: person.team_name ? {
         id: person.team_id || 0,
         name: person.team_name,
@@ -151,6 +155,7 @@ export class PersonService {
       contract: person.contract as 'Employee' | 'Contractor' | null,
       team_id: person.team_id,
       role_id: person.role_id,
+      english_level: person.english_level as 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2' | null,
       team: person.team_name ? {
         id: person.team_id || 0,
         name: person.team_name,
@@ -165,8 +170,8 @@ export class PersonService {
   // Create a new person
   static async createPerson(person: Omit<Person, 'id'>): Promise<PersonWithTeamAndRole> {
     const query = `
-      INSERT INTO people (name, seniority, contract, team_id, role_id)
-      VALUES (?, ?, ?, ?, ?)
+      INSERT INTO people (name, seniority, contract, team_id, role_id, english_level)
+      VALUES (?, ?, ?, ?, ?, ?)
     `;
     
     const result = await executeQuery(query, [
@@ -174,7 +179,8 @@ export class PersonService {
       person.seniority,
       person.contract,
       person.team_id,
-      person.role_id
+      person.role_id,
+      person.english_level
     ]) as InsertResult;
     
     const newPersonId = result.insertId;
@@ -211,6 +217,10 @@ export class PersonService {
     if (person.role_id !== undefined) {
       fields.push('role_id = ?');
       values.push(person.role_id);
+    }
+    if (person.english_level !== undefined) {
+      fields.push('english_level = ?');
+      values.push(person.english_level);
     }
     
     if (fields.length === 0) {

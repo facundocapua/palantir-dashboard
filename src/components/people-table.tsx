@@ -176,6 +176,9 @@ export default function PeopleTable({ people, teams, roles, onDataChange }: Peop
                       <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                         Contract
                       </th>
+                      <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                        English Level
+                      </th>
                       <th scope="col" className="relative py-3.5 pr-4 pl-3 sm:pr-6">
                         <span className="sr-only">Actions</span>
                       </th>
@@ -210,6 +213,21 @@ export default function PeopleTable({ people, teams, roles, onDataChange }: Peop
                         </td>
                         <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">
                           {person.contract || 'N/A'}
+                        </td>
+                        <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">
+                          {person.english_level ? (
+                            <span className={`inline-flex rounded-full px-2 text-xs font-semibold leading-5 ${
+                              person.english_level.includes('C')
+                                ? 'bg-green-100 text-green-800'
+                                : person.english_level.includes('B')
+                                ? 'bg-yellow-100 text-yellow-800'
+                                : 'bg-blue-100 text-blue-800'
+                            }`}>
+                              {person.english_level}
+                            </span>
+                          ) : (
+                            'N/A'
+                          )}
                         </td>
                         <td className="relative py-4 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-6">
                           <div className="flex justify-end space-x-2">

@@ -26,6 +26,7 @@ export default function PersonForm({
     contract: person?.contract || null,
     team_id: person?.team_id || null,
     role_id: person?.role_id || null,
+    english_level: person?.english_level || null,
   });
 
   const seniorityOptions = [
@@ -38,6 +39,15 @@ export default function PersonForm({
   ];
 
   const contractOptions = ['Employee', 'Contractor'];
+
+  const englishLevelOptions = [
+    'A1',
+    'A2',
+    'B1',
+    'B2',
+    'C1',
+    'C2',
+  ];
 
   const handleChange = (field: keyof Omit<Person, 'id'>, value: string | number | null) => {
     setFormData(prev => ({
@@ -148,6 +158,25 @@ export default function PersonForm({
                 {contractOptions.map((contract) => (
                   <option key={contract} value={contract}>
                     {contract}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* English Level */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                English Level (CEFR)
+              </label>
+              <select
+                value={formData.english_level || ''}
+                onChange={(e) => handleChange('english_level', e.target.value || null)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              >
+                <option value="">Select English level</option>
+                {englishLevelOptions.map((level) => (
+                  <option key={level} value={level}>
+                    {level}
                   </option>
                 ))}
               </select>

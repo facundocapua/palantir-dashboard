@@ -17,6 +17,7 @@ export interface Person {
   contract: 'Employee' | 'Contractor' | null;
   team_id: number | null;
   role_id: number | null;
+  english_level: 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2' | null;
 }
 
 // Extended types with relations
