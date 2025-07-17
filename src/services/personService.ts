@@ -9,6 +9,7 @@ interface PersonWithTeamAndRoleRaw {
   team_id: number | null;
   role_id: number | null;
   english_level: string | null;
+  monthly_hours: number;
   team_name: string | null;
   role_name: string | null;
 }
@@ -47,6 +48,7 @@ export class PersonService {
       team_id: person.team_id,
       role_id: person.role_id,
       english_level: person.english_level as 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2' | null,
+      monthly_hours: person.monthly_hours,
       team: person.team_name ? {
         id: person.team_id || 0,
         name: person.team_name,
@@ -85,6 +87,7 @@ export class PersonService {
       team_id: person.team_id,
       role_id: person.role_id,
       english_level: person.english_level as 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2' | null,
+      monthly_hours: person.monthly_hours,
       team: person.team_name ? {
         id: person.team_id || 0,
         name: person.team_name,
@@ -120,6 +123,7 @@ export class PersonService {
       team_id: person.team_id,
       role_id: person.role_id,
       english_level: person.english_level as 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2' | null,
+      monthly_hours: person.monthly_hours,
       team: person.team_name ? {
         id: person.team_id || 0,
         name: person.team_name,
@@ -156,6 +160,7 @@ export class PersonService {
       team_id: person.team_id,
       role_id: person.role_id,
       english_level: person.english_level as 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2' | null,
+      monthly_hours: person.monthly_hours,
       team: person.team_name ? {
         id: person.team_id || 0,
         name: person.team_name,
@@ -170,8 +175,8 @@ export class PersonService {
   // Create a new person
   static async createPerson(person: Omit<Person, 'id'>): Promise<PersonWithTeamAndRole> {
     const query = `
-      INSERT INTO people (name, seniority, contract, team_id, role_id, english_level)
-      VALUES (?, ?, ?, ?, ?, ?)
+      INSERT INTO people (name, seniority, contract, team_id, role_id, english_level, monthly_hours)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
     `;
     
     const result = await executeQuery(query, [
@@ -180,7 +185,8 @@ export class PersonService {
       person.contract,
       person.team_id,
       person.role_id,
-      person.english_level
+      person.english_level,
+      person.monthly_hours
     ]) as InsertResult;
     
     const newPersonId = result.insertId;
@@ -221,6 +227,10 @@ export class PersonService {
     if (person.english_level !== undefined) {
       fields.push('english_level = ?');
       values.push(person.english_level);
+    }
+    if (person.monthly_hours !== undefined) {
+      fields.push('monthly_hours = ?');
+      values.push(person.monthly_hours);
     }
     
     if (fields.length === 0) {

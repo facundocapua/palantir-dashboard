@@ -179,6 +179,9 @@ export default function PeopleTable({ people, teams, roles, onDataChange }: Peop
                       <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                         English Level
                       </th>
+                      <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                        Monthly Hours
+                      </th>
                       <th scope="col" className="relative py-3.5 pr-4 pl-3 sm:pr-6">
                         <span className="sr-only">Actions</span>
                       </th>
@@ -228,6 +231,11 @@ export default function PeopleTable({ people, teams, roles, onDataChange }: Peop
                           ) : (
                             'N/A'
                           )}
+                        </td>
+                        <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">
+                          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                            {person.monthly_hours}h
+                          </span>
                         </td>
                         <td className="relative py-4 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-6">
                           <div className="flex justify-end space-x-2">

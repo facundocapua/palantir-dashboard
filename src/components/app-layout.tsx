@@ -13,12 +13,14 @@ import {
   BriefcaseIcon,
   BuildingOfficeIcon,
   RectangleStackIcon,
+  ArrowsRightLeftIcon,
 } from '@heroicons/react/24/outline'
 
 const navigation = [
   { name: 'Dashboard', href: '/', icon: HomeIcon },
   { name: 'People', href: '/people', icon: UsersIcon },
   { name: 'Teams', href: '/teams', icon: FolderIcon },
+  { name: 'Team Assignments', href: '/team-assignments', icon: ArrowsRightLeftIcon },
   { name: 'Roles', href: '/roles', icon: BriefcaseIcon },
   { name: 'Clients', href: '/clients', icon: BuildingOfficeIcon },
   { name: 'Projects', href: '/projects', icon: RectangleStackIcon },

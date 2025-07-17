@@ -27,6 +27,7 @@ export default function PersonForm({
     team_id: person?.team_id || null,
     role_id: person?.role_id || null,
     english_level: person?.english_level || null,
+    monthly_hours: person?.monthly_hours || 0,
   });
 
   const seniorityOptions = [
@@ -180,6 +181,25 @@ export default function PersonForm({
                   </option>
                 ))}
               </select>
+            </div>
+
+            {/* Monthly Hours */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Monthly Hours
+              </label>
+              <input
+                type="number"
+                min="0"
+                max="744"
+                value={formData.monthly_hours}
+                onChange={(e) => handleChange('monthly_hours', parseInt(e.target.value) || 0)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                placeholder="Enter monthly hours produced"
+              />
+              <p className="text-xs text-gray-500 mt-1">
+                Number of hours produced per month (0-744)
+              </p>
             </div>
 
             {/* Buttons */}

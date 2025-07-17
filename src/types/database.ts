@@ -18,6 +18,7 @@ export interface Person {
   team_id: number | null;
   role_id: number | null;
   english_level: 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2' | null;
+  monthly_hours: number;
 }
 
 export interface Client {
