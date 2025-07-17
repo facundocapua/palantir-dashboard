@@ -8,6 +8,7 @@ interface MemberWithTeamAndRole {
   contract: string | null;
   team_id: number | null;
   role_id: number | null;
+  english_level: string | null;
   team_name: string;
   role_name: string;
 }
@@ -71,6 +72,7 @@ export class TeamService {
       contract: member.contract as 'Employee' | 'Contractor' | null,
       team_id: member.team_id,
       role_id: member.role_id,
+      english_level: member.english_level as 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2' | null,
       team: {
         id: team.id,
         name: member.team_name,
@@ -149,6 +151,14 @@ export class TeamService {
     
     if (membersResult[0].count > 0) {
       throw new Error('Cannot delete team with members. Please reassign members first.');
+    }
+
+    // Check if team has projects
+    const projectsQuery = 'SELECT COUNT(*) as count FROM projects WHERE team_id = ?';
+    const projectsResult = await executeQuery(projectsQuery, [id]) as { count: number }[];
+    
+    if (projectsResult[0].count > 0) {
+      throw new Error('Cannot delete team with assigned projects. Please reassign projects first.');
     }
     
     const query = 'DELETE FROM teams WHERE id = ?';
