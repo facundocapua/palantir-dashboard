@@ -28,30 +28,34 @@ export default function UnassignedPersonsCard({ people, stats }: UnassignedPerso
         isOver ? 'border-orange-500 bg-orange-50' : 'border-gray-200'
       }`}
     >
-      <div className="p-4 border-b border-gray-200">
-        <h3 className="text-lg font-semibold text-gray-900 flex items-center">
-          <span className="w-3 h-3 bg-orange-400 rounded-full mr-2"></span>
+      <div className="p-4 border-b border-orange-200 bg-orange-50">
+        <h3 className="text-lg font-semibold text-orange-700 flex items-center">
+          <span className="w-3 h-3 bg-orange-500 rounded-full mr-2 shadow-sm"></span>
           Unassigned People
         </h3>
         <div className="mt-2 grid grid-cols-2 gap-4 text-sm">
-          <div>
-            <span className="text-gray-500">People:</span>
-            <span className="ml-1 font-medium">{stats.memberCount}</span>
+          <div className="flex items-center">
+            <span className="text-gray-600">People:</span>
+            <span className="ml-1 font-semibold px-2 py-0.5 rounded bg-orange-100 text-orange-700">
+              {stats.memberCount}
+            </span>
           </div>
-          <div>
-            <span className="text-gray-500">Total Hours:</span>
-            <span className="ml-1 font-medium">{stats.totalHours}h</span>
+          <div className="flex items-center">
+            <span className="text-gray-600">Total Hours:</span>
+            <span className="ml-1 font-semibold px-2 py-0.5 rounded bg-orange-100 text-orange-700">
+              {stats.totalHours}h
+            </span>
           </div>
         </div>
         
         {Object.keys(stats.hoursByRole).length > 0 && (
           <div className="mt-3">
-            <p className="text-xs text-gray-500 mb-2">Hours by Role:</p>
-            <div className="space-y-1">
+            <p className="text-xs text-gray-600 mb-2 font-medium">Hours by Role:</p>
+            <div className="grid grid-cols-2 gap-1">
               {Object.entries(stats.hoursByRole).map(([role, hours]) => (
-                <div key={role} className="flex justify-between text-xs">
-                  <span className="text-gray-600">{role}:</span>
-                  <span className="font-medium">{hours}h</span>
+                <div key={role} className="flex justify-between text-xs bg-white rounded px-2 py-1 border border-orange-200">
+                  <span className="text-gray-700 font-medium">{role}:</span>
+                  <span className="font-semibold text-orange-700">{hours}h</span>
                 </div>
               ))}
             </div>
@@ -70,7 +74,7 @@ export default function UnassignedPersonsCard({ people, stats }: UnassignedPerso
               <p className="text-xs mt-1">Drag people here to unassign them</p>
             </div>
           ) : (
-            <div className="space-y-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-2">
               {people.map(person => (
                 <PersonCard key={person.id} person={person} />
               ))}

@@ -41,6 +41,16 @@ export interface Project {
   updated_at: Date;
 }
 
+export interface ProjectProjectedHours {
+  id: number;
+  project_id: number;
+  year: number;
+  month: number;
+  projected_hours: number;
+  created_at: Date;
+  updated_at: Date;
+}
+
 // Extended types with relations
 export interface PersonWithTeamAndRole extends Person {
   team: Team | null;
@@ -54,6 +64,22 @@ export interface ClientWithProjectCount extends Client {
 export interface ProjectWithClientAndTeam extends Project {
   client: Client;
   team: Team;
+}
+
+export interface ProjectWithProjectedHours extends Project {
+  client: Client;
+  team: Team;
+  projectedHours: ProjectProjectedHours[];
+}
+
+export interface TeamCapacityAnalysis {
+  team: Team;
+  totalMemberHours: number;
+  memberCount: number;
+  projects: ProjectWithProjectedHours[];
+  totalProjectedHours: number;
+  capacityDifference: number; // positive = excess capacity, negative = needs more people
+  utilizationPercentage: number;
 }
 
 export interface TeamWithMembers extends Team {

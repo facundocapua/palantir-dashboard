@@ -14,6 +14,8 @@ import {
   BuildingOfficeIcon,
   RectangleStackIcon,
   ArrowsRightLeftIcon,
+  ClockIcon,
+  ChartBarIcon,
 } from '@heroicons/react/24/outline'
 
 const navigation = [
@@ -24,6 +26,8 @@ const navigation = [
   { name: 'Roles', href: '/roles', icon: BriefcaseIcon },
   { name: 'Clients', href: '/clients', icon: BuildingOfficeIcon },
   { name: 'Projects', href: '/projects', icon: RectangleStackIcon },
+  { name: 'Projected Hours', href: '/projected-hours', icon: ClockIcon },
+  { name: 'Capacity Analysis', href: '/capacity-analysis', icon: ChartBarIcon },
   { name: 'Reports', href: '/reports', icon: ChartPieIcon },
 ]
 
