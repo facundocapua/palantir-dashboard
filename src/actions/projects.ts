@@ -62,6 +62,7 @@ export async function createProject(formData: FormData): Promise<{ success: bool
   try {
     const name = formData.get('name') as string;
     const description = formData.get('description') as string | null;
+    const repository = formData.get('repository') as string | null;
     const clientId = parseInt(formData.get('client_id') as string);
     const teamId = parseInt(formData.get('team_id') as string);
     const status = formData.get('status') as 'Active' | 'Inactive' | 'Completed' | 'On Hold';
@@ -83,6 +84,7 @@ export async function createProject(formData: FormData): Promise<{ success: bool
     const projectData = {
       name: name.trim(),
       description: description?.trim() || null,
+      repository: repository?.trim() || null,
       client_id: clientId,
       team_id: teamId,
       status: status || 'Active',
@@ -107,6 +109,7 @@ export async function updateProject(id: number, formData: FormData): Promise<{ s
   try {
     const name = formData.get('name') as string;
     const description = formData.get('description') as string | null;
+    const repository = formData.get('repository') as string | null;
     const clientId = parseInt(formData.get('client_id') as string);
     const teamId = parseInt(formData.get('team_id') as string);
     const status = formData.get('status') as 'Active' | 'Inactive' | 'Completed' | 'On Hold';
@@ -128,6 +131,7 @@ export async function updateProject(id: number, formData: FormData): Promise<{ s
     const projectData = {
       name: name.trim(),
       description: description?.trim() || null,
+      repository: repository?.trim() || null,
       client_id: clientId,
       team_id: teamId,
       status: status || 'Active',

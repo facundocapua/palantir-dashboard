@@ -16,6 +16,7 @@ interface ProjectFormProps {
 export function ProjectForm({ project, onClose, onSuccess }: ProjectFormProps) {
   const [name, setName] = useState(project?.name || '');
   const [description, setDescription] = useState(project?.description || '');
+  const [repository, setRepository] = useState(project?.repository || '');
   const [clientId, setClientId] = useState(project?.client_id?.toString() || '');
   const [teamId, setTeamId] = useState(project?.team_id?.toString() || '');
   const [status, setStatus] = useState(project?.status || 'Active');
@@ -60,6 +61,7 @@ export function ProjectForm({ project, onClose, onSuccess }: ProjectFormProps) {
       const formData = new FormData();
       formData.append('name', name);
       formData.append('description', description);
+      formData.append('repository', repository);
       formData.append('client_id', clientId);
       formData.append('team_id', teamId);
       formData.append('status', status);
@@ -130,6 +132,21 @@ export function ProjectForm({ project, onClose, onSuccess }: ProjectFormProps) {
               onChange={(e) => setDescription(e.target.value)}
               rows={3}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+              disabled={isLoading}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="repository" className="block text-sm font-medium text-gray-700 mb-1">
+              GitHub Repository
+            </label>
+            <input
+              type="url"
+              id="repository"
+              value={repository}
+              onChange={(e) => setRepository(e.target.value)}
+              placeholder="https://github.com/user/repository"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               disabled={isLoading}
             />
           </div>

@@ -99,6 +99,9 @@ export function ProjectsList({ projects, onUpdate }: ProjectsListProps) {
                 Team
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Repository
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Status
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -125,6 +128,20 @@ export function ProjectsList({ projects, onUpdate }: ProjectsListProps) {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm text-gray-900">{project.team.name}</div>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {project.repository ? (
+                    <a
+                      href={project.repository}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-blue-600 hover:text-blue-800 underline"
+                    >
+                      View Repository
+                    </a>
+                  ) : (
+                    <div className="text-sm text-gray-400">No repository</div>
+                  )}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(project.status)}`}>

@@ -5,6 +5,7 @@ interface ProjectWithClientAndTeamRaw {
   id: number;
   name: string;
   description: string | null;
+  repository: string | null;
   client_id: number;
   team_id: number;
   status: 'Active' | 'Inactive' | 'Completed' | 'On Hold';
@@ -60,6 +61,7 @@ export class ProjectService {
       id: row.id,
       name: row.name,
       description: row.description,
+      repository: row.repository,
       client_id: row.client_id,
       team_id: row.team_id,
       status: row.status,
@@ -110,6 +112,7 @@ export class ProjectService {
       id: row.id,
       name: row.name,
       description: row.description,
+      repository: row.repository,
       client_id: row.client_id,
       team_id: row.team_id,
       status: row.status,
@@ -147,12 +150,13 @@ export class ProjectService {
   // Create new project
   static async createProject(projectData: Omit<Project, 'id' | 'created_at' | 'updated_at'>): Promise<number> {
     const query = `
-      INSERT INTO projects (name, description, client_id, team_id, status, start_date, end_date)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO projects (name, description, repository, client_id, team_id, status, start_date, end_date)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `;
     const result = await executeQuery(query, [
       projectData.name,
       projectData.description,
+      projectData.repository,
       projectData.client_id,
       projectData.team_id,
       projectData.status,
@@ -175,6 +179,10 @@ export class ProjectService {
     if (projectData.description !== undefined) {
       fields.push('description = ?');
       values.push(projectData.description);
+    }
+    if (projectData.repository !== undefined) {
+      fields.push('repository = ?');
+      values.push(projectData.repository);
     }
     if (projectData.client_id !== undefined) {
       fields.push('client_id = ?');
@@ -236,6 +244,7 @@ export class ProjectService {
       id: row.id,
       name: row.name,
       description: row.description,
+      repository: row.repository,
       client_id: row.client_id,
       team_id: row.team_id,
       status: row.status,

@@ -32,6 +32,7 @@ export interface Project {
   id: number;
   name: string;
   description: string | null;
+  repository: string | null;
   client_id: number;
   team_id: number;
   status: 'Active' | 'Inactive' | 'Completed' | 'On Hold';
