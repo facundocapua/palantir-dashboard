@@ -52,6 +52,16 @@ export interface ProjectProjectedHours {
   updated_at: Date;
 }
 
+export interface GitHubStatistic {
+  id: number;
+  project_id: number;
+  week_date: Date;
+  additions: number;
+  deletions: number;
+  created_at: Date;
+  updated_at: Date;
+}
+
 // Extended types with relations
 export interface PersonWithTeamAndRole extends Person {
   team: Team | null;

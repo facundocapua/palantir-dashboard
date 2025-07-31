@@ -16,6 +16,7 @@ import {
   ArrowsRightLeftIcon,
   ClockIcon,
   ChartBarIcon,
+  CodeBracketIcon,
 } from '@heroicons/react/24/outline'
 
 const navigation = [
@@ -28,6 +29,7 @@ const navigation = [
   { name: 'Projects', href: '/projects', icon: RectangleStackIcon },
   { name: 'Projected Hours', href: '/projected-hours', icon: ClockIcon },
   { name: 'Capacity Analysis', href: '/capacity-analysis', icon: ChartBarIcon },
+  { name: 'GitHub Stats', href: '/github-stats', icon: CodeBracketIcon },
   { name: 'Reports', href: '/reports', icon: ChartPieIcon },
 ]
 
