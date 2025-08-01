@@ -16,7 +16,7 @@ import {
   ArrowsRightLeftIcon,
   ClockIcon,
   ChartBarIcon,
-  CodeBracketIcon,
+  ChartBarSquareIcon,
 } from '@heroicons/react/24/outline'
 
 const navigation = [
@@ -29,7 +29,7 @@ const navigation = [
   { name: 'Projects', href: '/projects', icon: RectangleStackIcon },
   { name: 'Projected Hours', href: '/projected-hours', icon: ClockIcon },
   { name: 'Capacity Analysis', href: '/capacity-analysis', icon: ChartBarIcon },
-  { name: 'GitHub Stats', href: '/github-stats', icon: CodeBracketIcon },
+  { name: 'Code Metrics', href: '/code-metrics', icon: ChartBarSquareIcon },
   { name: 'Reports', href: '/reports', icon: ChartPieIcon },
 ]
 
